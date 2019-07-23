@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="一、线程与协程的区别  调度上的区别 进程线程都是由操作系统进行调度， 有CPU时间片的概念，进行抢占式调度 协程是用户态的轻量级线程，对内核透明，所以协程的调度与切换完全由用户控制 正因为协程不由操作系统调度，才有：线程是操作系统调度的最小单位。  切换开销的区别线程太重，资源占用太高，频繁创建销毁会带来严重的性能问题；协程切换远比线程小 协程的好处：一个协程几乎就是一个普通的对象，因此可以放心">
+<meta property="og:type" content="article">
+<meta property="og:title" content="空少的幸福人生">
+<meta property="og:url" content="http://yoursite.com/2019/04/28/golang/go协程如何调度/index.html">
+<meta property="og:site_name" content="空少的幸福人生">
+<meta property="og:description" content="一、线程与协程的区别  调度上的区别 进程线程都是由操作系统进行调度， 有CPU时间片的概念，进行抢占式调度 协程是用户态的轻量级线程，对内核透明，所以协程的调度与切换完全由用户控制 正因为协程不由操作系统调度，才有：线程是操作系统调度的最小单位。  切换开销的区别线程太重，资源占用太高，频繁创建销毁会带来严重的性能问题；协程切换远比线程小 协程的好处：一个协程几乎就是一个普通的对象，因此可以放心">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/Users/zhengxiao/Desktop/20180706180251695.png">
+<meta property="og:image" content="http://yoursite.com/Users/zhengxiao/Desktop/20180706180313415.png">
+<meta property="og:updated_time" content="2019-04-28T15:13:57.981Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="空少的幸福人生">
+<meta name="twitter:description" content="一、线程与协程的区别  调度上的区别 进程线程都是由操作系统进行调度， 有CPU时间片的概念，进行抢占式调度 协程是用户态的轻量级线程，对内核透明，所以协程的调度与切换完全由用户控制 正因为协程不由操作系统调度，才有：线程是操作系统调度的最小单位。  切换开销的区别线程太重，资源占用太高，频繁创建销毁会带来严重的性能问题；协程切换远比线程小 协程的好处：一个协程几乎就是一个普通的对象，因此可以放心">
+<meta name="twitter:image" content="http://yoursite.com/Users/zhengxiao/Desktop/20180706180251695.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/04/28/golang/go协程如何调度/">
+
+
+
+
+
+  <title> | 空少的幸福人生</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">空少的幸福人生</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/28/golang/go协程如何调度/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="jigetage 深航空少">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="空少的幸福人生">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline"></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-28T00:10:21+08:00">
+                2019-04-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>一、线程与协程的区别</p>
+<ol>
+<li><p>调度上的区别</p>
+<p>进程线程都是由操作系统进行调度， 有CPU时间片的概念，进行抢占式调度</p>
+<p>协程是用户态的轻量级线程，对内核透明，所以协程的调度与切换完全由用户控制</p>
+<p>正因为协程不由操作系统调度，才有：线程是操作系统调度的最小单位。</p>
+</li>
+<li><p>切换开销的区别<br>线程太重，资源占用太高，频繁创建销毁会带来严重的性能问题；<br>协程切换远比线程小</p>
+<p>协程的好处：一个协程几乎就是一个普通的对象，因此可以放心阻塞，一旦阻塞那么让当前线程执行其他的协程（goroutine）</p>
+</li>
+</ol>
+<p>  二、goroutine和协程的区别</p>
+<p>  goroutine是协程的go语言实现，相当于把别的语言的类库的功能内置到语言里。</p>
+<p>  不同的是：<br>  Golang在runtime，系统调用等多方面对goroutine调度进行了封装和处理，即goroutine不完全是用户控制，一定程度上由go运行时（runtime）管理，好处：当某goroutine阻塞时，会让出CPU给其他goroutine。</p>
+<p>三、goroutine的调度模型</p>
+<ol>
+<li>默认情况下，所有的goroutine都在同一个原生线程里跑，也就是只使用了一个CPU核。<br> 但是，通过runtime.GOMAXPROCS(4)设定，可以将goroutine调度到多个CPU上运行。</li>
+<li>在同一个原生线程里，若当前goroutine不发生阻塞，那么不会主动让出CPU给其他同一线程的goroutine的。<br>在go程序启动时，会首先创建一个特殊的内核线程sysmom，负责监控和调度。</li>
+</ol>
+<p><img src="/Users/zhengxiao/Desktop/20180706180251695.png" alt="20180706180251695"></p>
+<p>三类对象：<br>M代表线程<br>P代表处理器，每一个运行的M（线程）都必须绑定一个P（处理器）<br>G代表goroutine，每次使用go关键字的时候，都会创建一个G对象<br>图解：<br>当前有两个P，各自绑定了一个M，每个P上挂了一个本地goroutine队列，也有一个全局goroutine队列。<br>流程：</p>
+<ol>
+<li><p>每次使用go关键字声明时，一个G对象被创建并加入到本地G队列或者全局G队列。</p>
+</li>
+<li><p>检查是否有空闲的P（处理器），若有那么创建一个M（若有正在sleep的M那么直接唤醒它）与其绑定，然后这个M循环执行goroutine任务。</p>
+</li>
+<li><p>G任务执行的顺序是，先从本地队列中找。但若某个M（线程）发现本地队列为空，那么会从全局队列中截取goroutine来执行（一次性转移（全局队列的G个数/P个数））。如果全局队列也空，那么会随机从别的P那里截取【一半】的goroutine过来（偷窃任务），若所有的P的队列都为空，那么该M（线程）就会陷入sleep。</p>
+</li>
+<li><p>如果一个goroutine运行到一个“调度点”，上下文便从队列中取出一个goroutine，开始运行心得goroutine<br>三种调度点：</p>
+<p>1、调用runtime.gosched函数。goroutine主动放弃CPU，该goroutine会被置为runnable状态，然后放入全局G队列，P继续执行下一个goroutine。</p>
+<p>主动行为</p>
+<p>使用场景：一般发生在执行长任务又想其他goroutine得到执行机会时调用。</p>
+<p>2、调用runtime.park函数。goroutine进入wait状态，除非对其调用runtime.ready函数，否则该goroutine永远不刽得到执行。而P继续执行下一个G任务。</p>
+<p>使用场景：读写channel。一般是在某个条件如果得不到满足就不能继续运行下去时调用，当条件满足后需要使用runtime.ready唤醒它，类似于Java里的await和notify<br>3、慢系统调用。将该处理器P上设置为syscall状态，然后对应的线程M进入系统调用阻塞等待。sysmom监控线程会定期扫描所有的P（处理器），若发现一个P处于syscall状态，就讲=将M（线程）和P（处理器）分离，并再分配一个M与这个P绑定，从而继续执行P本地队列中的其他goroutine。当之前阻塞的M从系统调用返回后，将其执行的goroutine放入全局G队列中，该M去sleep。如下图。</p>
+</li>
+</ol>
+<p><img src="/Users/zhengxiao/Desktop/20180706180313415.png" alt="20180706180313415"></p>
+<p>sysmom线程的执行过程：</p>
+<ol>
+<li>记录每一个P（处理器）执行的goroutine数schedtick，每执行一个goroutine后schedtick递增</li>
+<li>如果检查到schedtick一直没有递增，就说明这个P一直在执行同一个goroutine，如果超过一定的时间阈值（10ms），就在这个goroutine任务的栈信息里面加一个标记</li>
+<li>然后这个goroutine任务在执行的时候，如果遇到非内联函数调用，就会检查一次这个标记，然后中断自己，把自己加到队列末尾，执行下一个G（即所谓的调度点3）</li>
+<li>如果没有遇到非内联函数调用（内联函数：执行权不转交给被调用函数，而是将函数的代码粘贴在调用处），那么就会一直执行这个goroutine任务，直到他自己结束。</li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/18/golang/如何简单理解go中的协程，即goroutine？/" rel="next" title>
+                <i class="fa fa-chevron-left"></i> 
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/05/03/linux/项目中如何使用shell脚本/" rel="prev" title>
+                 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">jigetage 深航空少</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">29</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jigetage 深航空少</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

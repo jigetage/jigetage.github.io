@@ -79,13 +79,17 @@
 
 
 
-<meta property="og:type" content="website">
+<meta name="description" content="最近学习go语言，接触了协程的概念，对线程和协程的区别总结如下。 协程属于线程，即一个线程下面可以开辟多个协程。 协程是用户态的轻量级线程。 协程拥有自己的寄存器上下文和栈。协程调度切换时，将寄存器上下文和栈保存到其他地方，在切回来的时候，恢复先前保存的寄存器上下文和栈。 当多个协程切换时，由于其同属于一个线程，所以可以看作是同步执行的，不存在同时共享资源的情况，可以不加锁的访问全局变量，切换上下">
+<meta property="og:type" content="article">
 <meta property="og:title" content="空少的幸福人生">
-<meta property="og:url" content="http://yoursite.com/archives/2019/07/index.html">
+<meta property="og:url" content="http://yoursite.com/2019/04/07/linux/协程和线程的区别/index.html">
 <meta property="og:site_name" content="空少的幸福人生">
+<meta property="og:description" content="最近学习go语言，接触了协程的概念，对线程和协程的区别总结如下。 协程属于线程，即一个线程下面可以开辟多个协程。 协程是用户态的轻量级线程。 协程拥有自己的寄存器上下文和栈。协程调度切换时，将寄存器上下文和栈保存到其他地方，在切回来的时候，恢复先前保存的寄存器上下文和栈。 当多个协程切换时，由于其同属于一个线程，所以可以看作是同步执行的，不存在同时共享资源的情况，可以不加锁的访问全局变量，切换上下">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-04-07T15:28:51.230Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="空少的幸福人生">
+<meta name="twitter:description" content="最近学习go语言，接触了协程的概念，对线程和协程的区别总结如下。 协程属于线程，即一个线程下面可以开辟多个协程。 协程是用户态的轻量级线程。 协程拥有自己的寄存器上下文和栈。协程调度切换时，将寄存器上下文和栈保存到其他地方，在切回来的时候，恢复先前保存的寄存器上下文和栈。 当多个协程切换时，由于其同属于一个线程，所以可以看作是同步执行的，不存在同时共享资源的情况，可以不加锁的访问全局变量，切换上下">
 
 
 
@@ -115,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/archives/2019/07/">
+  <link rel="canonical" href="http://yoursite.com/2019/04/07/linux/协程和线程的区别/">
 
 
 
 
 
-  <title>归档 | 空少的幸福人生</title>
+  <title> | 空少的幸福人生</title>
   
 
 
@@ -140,7 +144,7 @@
     
   
 
-  <div class="container sidebar-position-left page-archive">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -214,212 +218,150 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block archive">
-    <div id="posts" class="posts-collapse">
-      <span class="archive-move-on"></span>
+  <div id="posts" class="posts-expand">
+    
 
-      <span class="archive-page-counter">
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/07/linux/协程和线程的区别/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="jigetage 深航空少">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="空少的幸福人生">
+    </span>
+
+    
+      <header class="post-header">
+
         
         
+          <h1 class="post-title" itemprop="name headline"></h1>
         
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-07T23:28:49+08:00">
+                2019-04-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
           
-        
-        嗯..! 目前共计 29 篇日志。 继续努力。
-      </span>
 
-      
-
-        
-        
-        
-
-        
           
-          <div class="collection-title">
-            <h1 class="archive-year" id="archive-year-2019">2019</h1>
-          </div>
-        
-        
+            
+          
 
-        
+          
+          
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+          
 
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/07/22/golang/方法的接收者是对象类型和指针类型的区别/" itemprop="url">
-              
-                <span itemprop="name">未命名</span>
-              
-            </a>
-        
-      </h2>
+          
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-07-22T16:52:44+08:00" content="2019-07-22">
-          07-22
-        </time>
-      </div>
+          
 
-    </header>
-  </article>
+        </div>
+      </header>
+    
 
-
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/07/09/prometheus/prometheus存储机制详解/" itemprop="url">
-              
-                <span itemprop="name">未命名</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-07-09T19:30:31+08:00" content="2019-07-09">
-          07-09
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
       
 
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/07/09/docker/docker-compose如何添加启动参数/" itemprop="url">
-              
-                <span itemprop="name">未命名</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-07-09T13:58:52+08:00" content="2019-07-09">
-          07-09
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
+      
+        <p>最近学习go语言，接触了协程的概念，对线程和协程的区别总结如下。</p>
+<p>协程属于线程，即一个线程下面可以开辟多个协程。</p>
+<p>协程是用户态的轻量级线程。</p>
+<p>协程拥有自己的寄存器上下文和栈。协程调度切换时，将寄存器上下文和栈保存到其他地方，在切回来的时候，恢复先前保存的寄存器上下文和栈。</p>
+<p>当多个协程切换时，由于其同属于一个线程，所以可以看作是同步执行的，不存在同时共享资源的情况，可以不加锁的访问全局变量，切换上下文非常快。</p>
+<p>对于不需要cpu大量参与的业务场景来说，比如io广泛的业务，建议使用协程。</p>
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/07/04/prometheus/prometheus使用心得体会/" itemprop="url">
-              
-                <span itemprop="name">未命名</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-07-04T17:58:06+08:00" content="2019-07-04">
-          07-04
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/07/04/linux/Linux服务器，服务管理--systemctl命令详解，设置开机自启动/" itemprop="url">
-              
-                <span itemprop="name">未命名</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-07-04T16:20:03+08:00" content="2019-07-04">
-          07-04
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
     </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/27/golang/go如何引用别的文件/" rel="next" title>
+                <i class="fa fa-chevron-left"></i> 
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/04/09/golang/go在实现对象和指针上同时调用method的闪光点/" rel="prev" title>
+                 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -427,6 +369,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -623,6 +569,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 

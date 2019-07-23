@@ -79,13 +79,17 @@
 
 
 
-<meta property="og:type" content="website">
+<meta name="description" content="直接上结论： readv()代表分散读， 即将数据从文件描述符读到分散的内存块中； writev()代表集中写，即将多块分散的内存一并写入文件描述符中。 依赖项： 头文件：include &amp;lt;sys/uio.h&amp;gt; api接口： ssize_t readv(int fd, const struct iovec *vector, int count);ssize_t writev(int f">
+<meta property="og:type" content="article">
 <meta property="og:title" content="空少的幸福人生">
-<meta property="og:url" content="http://yoursite.com/archives/2019/07/index.html">
+<meta property="og:url" content="http://yoursite.com/2019/02/09/linux/readv() 和 writev()函数详解/index.html">
 <meta property="og:site_name" content="空少的幸福人生">
+<meta property="og:description" content="直接上结论： readv()代表分散读， 即将数据从文件描述符读到分散的内存块中； writev()代表集中写，即将多块分散的内存一并写入文件描述符中。 依赖项： 头文件：include &amp;lt;sys/uio.h&amp;gt; api接口： ssize_t readv(int fd, const struct iovec *vector, int count);ssize_t writev(int f">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-02-08T16:27:21.905Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="空少的幸福人生">
+<meta name="twitter:description" content="直接上结论： readv()代表分散读， 即将数据从文件描述符读到分散的内存块中； writev()代表集中写，即将多块分散的内存一并写入文件描述符中。 依赖项： 头文件：include &amp;lt;sys/uio.h&amp;gt; api接口： ssize_t readv(int fd, const struct iovec *vector, int count);ssize_t writev(int f">
 
 
 
@@ -115,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/archives/2019/07/">
+  <link rel="canonical" href="http://yoursite.com/2019/02/09/linux/readv() 和 writev()函数详解/">
 
 
 
 
 
-  <title>归档 | 空少的幸福人生</title>
+  <title> | 空少的幸福人生</title>
   
 
 
@@ -140,7 +144,7 @@
     
   
 
-  <div class="container sidebar-position-left page-archive">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -214,212 +218,151 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block archive">
-    <div id="posts" class="posts-collapse">
-      <span class="archive-move-on"></span>
+  <div id="posts" class="posts-expand">
+    
 
-      <span class="archive-page-counter">
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/09/linux/readv() 和 writev()函数详解/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="jigetage 深航空少">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="空少的幸福人生">
+    </span>
+
+    
+      <header class="post-header">
+
         
         
+          <h1 class="post-title" itemprop="name headline"></h1>
         
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-09T00:27:21+08:00">
+                2019-02-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
           
-        
-        嗯..! 目前共计 29 篇日志。 继续努力。
-      </span>
 
-      
-
-        
-        
-        
-
-        
           
-          <div class="collection-title">
-            <h1 class="archive-year" id="archive-year-2019">2019</h1>
-          </div>
-        
-        
+            
+          
 
-        
+          
+          
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+          
 
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/07/22/golang/方法的接收者是对象类型和指针类型的区别/" itemprop="url">
-              
-                <span itemprop="name">未命名</span>
-              
-            </a>
-        
-      </h2>
+          
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-07-22T16:52:44+08:00" content="2019-07-22">
-          07-22
-        </time>
-      </div>
+          
 
-    </header>
-  </article>
+        </div>
+      </header>
+    
 
-
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/07/09/prometheus/prometheus存储机制详解/" itemprop="url">
-              
-                <span itemprop="name">未命名</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-07-09T19:30:31+08:00" content="2019-07-09">
-          07-09
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
       
 
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/07/09/docker/docker-compose如何添加启动参数/" itemprop="url">
-              
-                <span itemprop="name">未命名</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-07-09T13:58:52+08:00" content="2019-07-09">
-          07-09
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
+      
+        <p>直接上结论：</p>
+<p>readv()代表分散读， 即将数据从文件描述符读到分散的内存块中；</p>
+<p>writev()代表集中写，即将多块分散的内存一并写入文件描述符中。</p>
+<p>依赖项：</p>
+<p>头文件：include &lt;sys/uio.h&gt;</p>
+<p>api接口：</p>
+<p>ssize_t readv(int fd, const struct iovec *vector, int count);<br>ssize_t writev(int fd, const struct iovec *vector, int count);</p>
+<p>fd参数是被操作的文件描述符。<br>vector参数是iovec结构体：</p>
+<p>struct iovec<br>{<br>    void *iov_base;  //指向一个缓冲区，这个缓冲区是存放readv()所接收的数据或                                                                     //writev()将要发送的数据<br>    size_t iov_len;  //接收的最大长度以及实际写入的长度<br>};</p>
+<p>count参数是vector数组的长度，即有多少块内存数据需要从fd读出或写到fd。</p>
+<p>两者调用成功是返回读出/写入fd的字节数，失败返回-1，并设置errno，此时需要引入error.h头文件。</p>
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/07/04/prometheus/prometheus使用心得体会/" itemprop="url">
-              
-                <span itemprop="name">未命名</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-07-04T17:58:06+08:00" content="2019-07-04">
-          07-04
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/07/04/linux/Linux服务器，服务管理--systemctl命令详解，设置开机自启动/" itemprop="url">
-              
-                <span itemprop="name">未命名</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-07-04T16:20:03+08:00" content="2019-07-04">
-          07-04
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
     </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/02/09/python/如何分辨python2和python3/" rel="prev" title>
+                 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -427,6 +370,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -623,6 +570,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
